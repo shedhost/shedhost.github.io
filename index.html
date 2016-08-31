@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Shed : simple local PHP development">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Shed</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/shedhost">View on GitHub</a>
+
+          <h1 id="project_title">Shed</h1>
+          <h2 id="project_tagline">simple local PHP development</h2>
+
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p>Shed provides a platform for simple, local, PHP development, in the same kind of way MAMP, Laravel Valet, or Homestead does.</p>
+
+<ul>
+<li>Shed uses Docker, and runs on <strong>every platform</strong> Docker does.</li>
+<li>Shed treats <strong>folders as sites</strong>, so adding a site is just making a folder.</li>
+<li>Shed makes use of <strong>wildcard DNS</strong>, so <strong>no configuration</strong> is required to add sites to Shed.</li>
+<li>Shed runs real Linux, Apache, MySQL, PostgreSQL and PHP, so your local environment matches production.</li>
+</ul>
+
+<p>It's designed to provide a set-it-and-forget-it platform for local, PHP development.</p>
+
+<p><strong>Please note,</strong> Shed is still very much a work in progress, and while you may find it useful, anything undocumented is particularly prone to change.</p>
+
+<h2>
+<a id="setup" class="anchor" href="#setup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Setup</h2>
+
+<p>To run Shed, you only need to be able to run <a href="https://www.docker.com/">Docker</a>.</p>
+
+<h3>
+<a id="default-enviroment" class="anchor" href="#default-enviroment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Default Enviroment</h3>
+
+<p>By default, Shed assumes the following setup:</p>
+
+<ul>
+<li>You have all your projects in one main folder: <code>Projects/</code> or <code>Sites/</code> perhaps.</li>
+<li>Shed itself is inside that folder.</li>
+<li>Shed should use the default HTTP port, port 80.</li>
+<li>Within each project folder, Shed looks for a <code>public/</code> subfolder and uses that as the document root.</li>
+</ul>
+
+<p>If that's how you plan to use Shed, great. If not, you'll want to look in the
+<code>docker-compose.yml</code> and make some adjustements.</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Start Shed by running <code>./shed up</code>. Once it's running, you can access your
+projects based on their folder names. For example, To access
+<code>Projects/example.com</code>, I would go to</p>
+
+<ul>
+<li><a href="http://example.com.shed.host">http://example.com.shed.host</a></li>
+</ul>
+
+<p>That's it. If you don't want to use shed.host, you can use any of the following:</p>
+
+<ul>
+<li>imarc.io - owned by <a href="https://www.imarc.com">Imarc</a>
+</li>
+<li>localtest.me - <a href="http://readme.localtest.me/">readme.localtest.me</a>
+</li>
+<li>lvh.me - owned by <a href="https://gist.github.com/levicook/563675">Levi Cook</a>
+</li>
+<li>42foo.com - owned by <a href="https://jorgebernal.info/2009/07/17/42foo-virtual-hosts-web-development/">Jorge Bernal</a>
+</li>
+<li>fuf.me - owned by <a href="http://www.fidian.com/programming/public-dns-pointing-to-localhost">fidian</a>
+</li>
+<li>lacolhost.com - owned by <a href="http://blog.reenhanced.com/post/29566591244/developing-with-subdomains-just-got-a-lot-easier">Reenhanced</a>
+</li>
+<li>vcap.me - part of <a href="https://github.com/cloudfoundry-attic/vcap">Cloud Foundry</a>
+</li>
+</ul>
+
+<p><strong>Shed assumes</strong> that the document root for all your projects is
+<code>&lt;projectfolder&gt;/public</code>. If you use <code>docroot/</code> instead, you can try creating a
+symlink like this:</p>
+
+<pre><code>$ ln -s public docroot
+</code></pre>
+
+<h3>
+<a id="how-this-works" class="anchor" href="#how-this-works" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How this works</h3>
+
+<p>*.shed.host is setup using wildcard DNS to point to <code>127.0.0.1</code> - one of the IPs designed to always point to your own local system (<em>localhost</em>.) This eliminates any need to etc your <code>/etc/hosts</code> file.</p>
+
+<p>Within Shed's apache container, it uses <code>mod_vhost_alias</code> to map these subdomains back to separate virtualhosts. This means that there's no new apache configuration required.</p>
+
+<h2>
+<a id="adminer" class="anchor" href="#adminer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Adminer</h2>
+
+<p><a href="https://www.adminer.org/">Adminer</a> is a lightweight webapp for managing databases, including both MySQL and PostgreSQL. The latest release of Adminer is included in Shed.</p>
+
+<p>You can login by going to <a href="http://my.shed.host/">http://my.shed.host/</a> and clicking the relevant link, or:</p>
+
+<ul>
+<li>
+<strong>MySQL:</strong> host is <code>mysql</code>, username is <code>root</code>, no password</li>
+<li>
+<strong>PostgresSQL:</strong> host is <code>postgres</code>, username is <code>postgres</code>, no password</li>
+</ul>
+
+<h2>
+<a id="xdebug-and-webgrind" class="anchor" href="#xdebug-and-webgrind" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>XDebug and Webgrind</h2>
+
+<p>XDebug and Webgrind are setup within Shed as well. You can trigger XDebug
+profiling by adding <code>?XDEBUG_PROFILE=1</code> to the end of a URL.</p>
+
+<p>You can view That profile with Webgrind by going to</p>
+
+<ul>
+<li><a href="http://my.shed.host/webgrind/">http://my.shed.host/webgrind/</a></li>
+</ul>
+
+<h2>
+<a id="planned-features" class="anchor" href="#planned-features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Planned Features</h2>
+
+<ul>
+<li>nice landing page and skin for my.shed.host</li>
+<li>composer-based command-line tool</li>
+<li>documentation and examples of use with Craft CMS, Laravel, and WordPress</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>

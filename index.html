@@ -28,6 +28,16 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h2>
+<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quick Start</h2>
+
+<ol>
+<li>You need <a href="https://www.docker.com/">Docker</a> and <a href="https://getcomposer.org/">Composer</a> installed.</li>
+<li><code>composer global require shed</code></li>
+<li><code>shed config home $HOME/Sites</code></li>
+<li><code>shed up -d</code></li>
+</ol>
+
+<h2>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
 
 <p>Shed provides a platform for simple, local, PHP development, in the same kind of way MAMP, Laravel Valet, or Homestead does.</p>
@@ -41,34 +51,35 @@
 
 <p>It's designed to provide a set-it-and-forget-it platform for local, PHP development.</p>
 
-<p><strong>Please note,</strong> Shed is still very much a work in progress, and while you may find it useful, anything undocumented is particularly prone to change.</p>
-
 <h2>
 <a id="setup" class="anchor" href="#setup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Setup</h2>
 
-<p>To run Shed, you only need to be able to run <a href="https://www.docker.com/">Docker</a>.</p>
+<p>To run Shed, you only need to be able to run <a href="https://www.docker.com/">Docker</a> and <a href="https://getcomposer.org">Composer</a>. Shed is not tested on Windows yet, but Shed plans to support Windows, Linux, and OS X.</p>
 
 <h3>
 <a id="default-enviroment" class="anchor" href="#default-enviroment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Default Enviroment</h3>
 
-<p>By default, Shed assumes the following setup:</p>
+<p>There's only one setting that must be set:</p>
 
-<ul>
-<li>You have all your projects in one main folder: <code>Projects/</code> or <code>Sites/</code> perhaps.</li>
-<li>Shed itself is inside that folder.</li>
-<li>Shed should use the default HTTP port, port 80.</li>
-<li>Within each project folder, Shed looks for a <code>public/</code> subfolder and uses that as the document root.</li>
-</ul>
+<pre><code>shed config home $HOME/Sites
+</code></pre>
 
-<p>If that's how you plan to use Shed, great. If not, you'll want to look in the
-<code>docker-compose.yml</code> and make some adjustements.</p>
+<p>This specifies which folder shed should look in for your projects or sites.</p>
+
+<p>By default, Shed assumes that within each project folder, there will be a <code>public/</code> subfolder that Shed should use as a the <strong>document root</strong>. If you'd rather default to something other than public, you can change it:</p>
+
+<pre><code>shed config docroot html
+</code></pre>
+
+<p>Lastly, if you don't want to run Shed on port 80, you can change that too:</p>
+
+<pre><code>shed config port 8000
+</code></pre>
 
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>Start Shed by running <code>./shed up</code>. Once it's running, you can access your
-projects based on their folder names. For example, To access
-<code>Projects/example.com</code>, I would go to</p>
+<p>Start Shed by running <code>shed up</code> or <code>shed up -d</code>. Once it's running, you can access your projects based on their folder names. For example, To access <code>Projects/example.com</code>, I would go to</p>
 
 <ul>
 <li><a href="http://example.com.shed.host">http://example.com.shed.host</a></li>
@@ -107,6 +118,18 @@ symlink like this:</p>
 
 <p>Within Shed's apache container, it uses <code>mod_vhost_alias</code> to map these subdomains back to separate virtualhosts. This means that there's no new apache configuration required.</p>
 
+<h3>
+<a id="special-subdomains" class="anchor" href="#special-subdomains" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Special Subdomains</h3>
+
+<p>There are two groups of special domains:</p>
+
+<ol>
+<li>
+<a href="http://www.shed.host">shed.host</a> and <a href="http://www.shed.host">www.shed.host</a> get you to Shed's website.</li>
+<li>
+<a href="http://my.shed.host">my.shed.host</a> and <a href="http://shed.shed.host">shed.shed.host</a> get you to Shed's local, internal site. This is where you can find Adminer and Webgrind.</li>
+</ol>
+
 <h2>
 <a id="adminer" class="anchor" href="#adminer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Adminer</h2>
 
@@ -131,15 +154,6 @@ profiling by adding <code>?XDEBUG_PROFILE=1</code> to the end of a URL.</p>
 
 <ul>
 <li><a href="http://my.shed.host/webgrind/">http://my.shed.host/webgrind/</a></li>
-</ul>
-
-<h2>
-<a id="planned-features" class="anchor" href="#planned-features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Planned Features</h2>
-
-<ul>
-<li>nice landing page and skin for my.shed.host</li>
-<li>composer-based command-line tool</li>
-<li>documentation and examples of use with Craft CMS, Laravel, and WordPress</li>
 </ul>
       </section>
     </div>
